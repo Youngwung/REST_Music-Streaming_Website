@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwill.rest.repository.SongLikesDao">
+    
+    <!-- 좋아요 개수 확인 -->
+    <select id="countSongLikes" resultType="Integer">
+        select count(*)
+        from likes
+        where song_id = #{songId}
+    </select>
+
+    <!-- 좋아요 추가 -->
+    <insert id="insertSongLikes">
+        insert into likes (song_id, id)
+        values (#{songId})
+    </insert>
+
+    <!-- 좋아요 삭제 -->
+    <delete id="deleteSongLikes">
+        delete from likes
+        where song_id = #{songId}
+    </delete>
+    
+     <!-- 좋아요 개수와 순위를 매기는 쿼리 
+    <select id="popularSongs" resultType="SongLikes">
+        select
+            a.album_image as albumImage,
+            so.title as title,
+            si.singer_name as singerName,
+            a.album_name as albumName,
+            count(l.song_id) as likes,
+            so.song_path as songPath,
+            so.video_link as videoLink
+        from songs so
+        join albums a on so.album_id = a.album_id
+        join singers si on so.song_id = si.song_id
+        join likes l on so.song_id = l.song_id
+        group by 
+            a.album_image, 
+            so.title, 
+            si.singer_name, 
+            a.album_name, 
+            so.song_path, 
+            so.video_link
+        order by count(l.song_id);
+    </select>
+    -->
+    
+    <select id="popularSongs" resultType="SongLikes">
+        select
+            a.album_image,
+            so.title,
+            si.singer_name,
+            a.album_name,
+            count(l.song_id) as likes,
+            so.song_path,
+            so.video_link
+        from songs so
+        join albums a on so.album_id = a.album_id
+        join singers si on so.song_id = si.song_id
+        join likes l on so.song_id = l.song_id -- left join
+        group by 
+            a.album_image, 
+            so.title, 
+            si.singer_name, 
+            a.album_name, 
+            so.song_path,
+            so.video_link
+        order by count(l.song_id) desc
+    </select>
+    
+</mapper>
+
+
