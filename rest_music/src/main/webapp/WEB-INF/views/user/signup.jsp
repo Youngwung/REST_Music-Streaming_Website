@@ -31,20 +31,20 @@
             height: auto;
             padding: 10px;
             font-size: 14px;
-            border: 1px solid #ccc; /* input 창 테두리 회색 */
+            border: 1px solid #ccc; 
         }
         .form-signup .form-control:focus {
             z-index: 2;
-            border-color: #6c757d; /* input 창 테두리 포커스 색상 회색 */
+            border-color: #6c757d; 
         }
         .form-signup .input-group-append .btn {
-            background-color: #6c757d; /* 회색 */
+            background-color: #6c757d; 
             border-color: #6c757d;
             color: #fff;
-            height: 100%; /* 버튼의 세로 크기 조정 */
+            height: 100%; 
         }
         .form-signup .input-group-append .btn:hover {
-            background-color: #5a6268; /* 활성화 시 색상 */
+            background-color: #5a6268; 
             border-color: #5a6268;
             color: #fff;
         }
@@ -53,11 +53,11 @@
             font-size: 12px;
         }
         .btn-primary {
-            background-color: #6c757d; /* 회색 */
+            background-color: #6c757d; 
             border-color: #6c757d;
         }
         .btn-primary:hover {
-            background-color: #5a6268; /* 활성화 시 색상 */
+            background-color: #5a6268; 
             border-color: #5a6268;
         }
         .btn-outline-secondary {
@@ -85,7 +85,9 @@
         <form class="form-signup" id="signupForm">
             <h2 class="form-signup-heading">회원가입</h2>
             <div class="input-group mb-3">
-                <input type="text" id="userid" name="userId" class="form-control" placeholder="아이디를 입력해주세요" required autofocus pattern="^[a-z0-9]{5,20}$" title="5~20자의 영문 소문자와 숫자만 사용 가능합니다.">
+                <input type="text" id="userid" name="userId" class="form-control" 
+                placeholder="아이디를 입력해주세요" required autofocus pattern="^[a-z0-9]{5,20}$" 
+                title="5~20자의 영문 소문자와 숫자만 사용 가능합니다.">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="checkIdBtn">중복확인</button>
                 </div>
@@ -93,30 +95,48 @@
             <div id="checkUseridResult" class="text-danger"></div>
 
             <div class="mb-3">
-                <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력해주세요" required pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$" title="8자 이상의 영문 대/소문자와 숫자를 포함해야 합니다.">
+                <input type="password" id="password" name="password" class="form-control" 
+                placeholder="비밀번호를 입력해주세요" required pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$" 
+                title="8자 이상의 영문 대/소문자와 숫자를 포함해야 합니다.">
             </div>
 
             <div class="mb-3">
-                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="비밀번호를 한번 더 입력해주세요" required>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" 
+                placeholder="비밀번호를 한번 더 입력해주세요" required>
                 <div id="checkPasswordResult" class="text-danger"></div>
             </div>
 
             <div class="mb-3">
-                <input type="text" id="username" name="userName" class="form-control" placeholder="이름을 입력해 주세요" required>
+                <input type="text" id="username" name="userName" class="form-control" 
+                placeholder="이름을 입력해 주세요" required>
             </div>
 
             <div class="input-group mb-3">
-                <input type="email" id="email" name="email" class="form-control" placeholder="예: rest@rest.com" required>
+                <input type="email" id="email" name="email" class="form-control" 
+                placeholder="예: rest@rest.com" required>
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn">중복확인</button>
+                    <button type="button" class="btn btn-primary" 
+                    id="mailCheckBtn">인증번호 받기</button>
                 </div>
             </div>
             <div id="checkEmailResult" class="text-danger"></div>
 
-            <div class="mb-3">
-                <input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임" required>
+            <div class="input-group mb-3">
+                <input type="text" id="emailVerificationCode"
+                    name="emailAuthNumber" class="form-control"
+                    placeholder="인증번호를 입력해주세요" maxlength="6">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary"
+                        id="verifyCodeBtn">인증번호 확인</button>
+                </div>
             </div>
+            <span id="emailVerificationResult" class="text-danger"></span>
 
+            <div class="mb-3">
+                <input type="text" id="nickname" name="nickname" class="form-control" 
+                placeholder="닉네임" required>
+            </div>
+            
             <input type="hidden" id="hintQuestion" name="hintQuestion" value="">
             <div class="mb-3">
                 <select class="form-control" id="hintQuestionSelect" name="hintQuestionSelect" required="required">
@@ -128,16 +148,18 @@
             </div>
 
             <div class="mb-3">
-                <input type="text" id="hintAnswer" name="hintAnswer" class="form-control" placeholder="힌트 답변" required>
+                <input type="text" id="hintAnswer" name="hintAnswer" class="form-control" 
+                placeholder="힌트 답변" required>
             </div>
 
+            <div class="d-grid mb-3">
+                <button class="btn btn-primary" type="submit" id="btnSignUp" disabled>가입</button>
+            </div>
+            <div class="d-grid mb-3">
+                <button id="loginBtn" class="btn btn-outline-secondary" type="button" 
+                onClick="location.href='/Rest/user/signin'">로그인</button>
+            </div>
         </form>
-            <div class="d-grid mb-3">
-                <button class="btn btn-primary disabled" id="btnSignUp" disabled>가입</button>
-            </div>
-            <div class="d-grid mb-3">
-                <button id="loginBtn" class="btn btn-outline-secondary">로그인</button>
-            </div>
     </div>
     <script src="<%= request.getContextPath() %>/js/signup.js"></script>
 </body>

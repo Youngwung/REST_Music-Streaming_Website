@@ -31,6 +31,12 @@
             background-color: #6c757d;
             border-color: #6c757d;
         }
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
         .btn-outline-primary {
             color: #6c757d;
             border-color: #6c757d;
@@ -42,6 +48,14 @@
         .form-text {
             color: #6c757d;
             font-size: 0.9em;
+        }
+        .form-check-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-left: 5px; /* 아이디 저장 체크박스의 마진 조정 */
+        }
+        .form-check {
+            margin-bottom: 10px; /* 체크박스의 마진 조정 */
         }
     </style>
 </head>
@@ -68,6 +82,10 @@
                     <input class="form-control" 
                         type="password" name="password" placeholder="비밀번호를 입력해주세요" required />
                 </div>
+                <div class="form-check mb-1">
+                    <input class="form-check-input" type="checkbox" id="saveIdYn">
+                    <label class="form-check-label" for="saveIdYn">아이디 저장</label>
+                </div>
                 <div class="mb-3 text-end">
                     <a href="/Rest/user/findUserId" class="form-text">아이디 찾기</a> | <a href="/Rest/user/findpassword" class="form-text">비밀번호 찾기</a>
                 </div>
@@ -87,4 +105,5 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
         crossorigin="anonymous"></script>
 </body>
+
 </html>

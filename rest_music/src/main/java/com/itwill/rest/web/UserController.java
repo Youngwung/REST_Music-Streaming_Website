@@ -1,29 +1,25 @@
 package com.itwill.rest.web;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.List;
-
+import com.itwill.rest.service.MailSendService;
 import com.itwill.rest.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.itwill.rest.dto.user.UserCreateDto;
 import com.itwill.rest.dto.user.UserLikeDto;
 import com.itwill.rest.dto.user.UserSignInDto;
 import com.itwill.rest.repository.User;
-import com.itwill.rest.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
     
     private final UserService userService;
+    private final MailSendService mailSendService;
     
     @GetMapping("/mypage")
     public void myPage(@RequestParam(name = "userId") String userId, Model model) {
@@ -59,12 +56,24 @@ public class UserController {
     }
     
     @PostMapping("/signup") // POST 방식의 /user/signup 요청을 처리하는 컨트롤러 메서드
-    public String signUp(UserCreateDto dto, HttpServletRequest request) {
+    public String signUp(UserCreateDto dto, HttpServletRequest request, HttpSession session) {
         log.debug("POST signUp({})", dto);
-        
+
+        String emailAuthNumber = (String) session.getAttribute("EMAIL_AUTH_NUMBER");
+        String dtoAuthNumber = dto.getEmailAuthNumber(); // dto에서 인증번호 가져오기
+
+        log.debug("Session emailAuthNumber: {}", emailAuthNumber);
+        log.debug("DTO emailAuthNumber: {}", dtoAuthNumber);
+
+        if (emailAuthNumber == null || dtoAuthNumber == null || !dtoAuthNumber.equals(emailAuthNumber)) {
+            log.debug("Email authentication failed: emailAuthNumber={}, dtoAuthNumber={}", emailAuthNumber, dtoAuthNumber);
+            return "redirect:/user/signup?result=emailAuthFail";
+        }
+
         userService.create(dto, request);
-        
-        return "redirect:/user/signin"; // 로그인 페이지로 이동.
+        session.removeAttribute("EMAIL_AUTH_NUMBER");
+
+        return "redirect:/user/signin";
     }
     
     // 사용자 아이디 중복체크 REST 컨트롤러
@@ -74,11 +83,7 @@ public class UserController {
         log.debug("checkId(userid={})", userid);
         
         boolean result = userService.checkUserId(userid);
-        if (result) {
-            return ResponseEntity.ok("Y");
-        } else {
-            return ResponseEntity.ok("N");
-        }
+        return ResponseEntity.ok(result ? "Y" : "N");
     }
 
     // 사용자 이메일 중복체크 REST 컨트롤러
@@ -88,11 +93,7 @@ public class UserController {
         log.debug("checkEmail(email={})", email);
         
         boolean result = userService.checkEmail(email);
-        if (result) {
-            return ResponseEntity.ok("Y");
-        } else {
-            return ResponseEntity.ok("N");
-        }
+        return ResponseEntity.ok(result ? "Y" : "N");
     }
 
     @GetMapping("/signin")
@@ -125,7 +126,7 @@ public class UserController {
     
     @GetMapping("/signout")
     public String signOut(HttpSession session) {
-        log.debug("singOut()");
+        log.debug("signOut()");
 
         session.removeAttribute("SESSION_ATTR_USER");
         session.invalidate();
@@ -200,6 +201,29 @@ public class UserController {
 
         userService.setpassword(user);
 
-        return "redirect:/user/signin";
+        return "redirect:/user/signin"; 
+    }
+    
+    // 이메일 인증 번호 발송
+    @GetMapping("/sendEmailAuth")
+    @ResponseBody
+    public ResponseEntity<String> sendEmailAuth(@RequestParam(name = "email") String email, HttpSession session) {
+        log.debug("sendEmailAuth(email={})", email);
+        String authNumber = mailSendService.joinEmail(email);
+        session.setAttribute("EMAIL_AUTH_NUMBER", authNumber);
+        return ResponseEntity.ok(authNumber);
+    }
+
+    // 이메일 인증 번호 검증
+    @PostMapping("/verifyEmailAuth")
+    @ResponseBody
+    public ResponseEntity<String> verifyEmailAuth(@RequestParam(name = "inputAuthNumber") String inputAuthNumber, HttpSession session) {
+        String authNumber = (String) session.getAttribute("EMAIL_AUTH_NUMBER");
+        log.debug("verifyEmailAuth(authNumber={}, inputAuthNumber={})", authNumber, inputAuthNumber);
+        if (authNumber != null && authNumber.equals(inputAuthNumber)) {
+            return ResponseEntity.ok("Y");
+        } else {
+            return ResponseEntity.ok("N");
+        }
     }
 }

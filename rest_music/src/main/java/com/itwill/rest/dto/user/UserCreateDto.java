@@ -14,6 +14,7 @@ public class UserCreateDto {
     private String userProfile;
     private String hintQuestion;
     private String hintAnswer;
+    private String emailAuthNumber; // 이메일 인증번호 필드 추가
 
     public User toEntity() {
         return User.builder()
