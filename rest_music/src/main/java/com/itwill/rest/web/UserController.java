@@ -55,17 +55,17 @@ public class UserController {
         log.debug("GET signUp()");
     }
     
-    @PostMapping("/signup") // POST 방식의 /user/signup 요청을 처리하는 컨트롤러 메서드
+    @PostMapping("/signup")
     public String signUp(UserCreateDto dto, HttpServletRequest request, HttpSession session) {
         log.debug("POST signUp({})", dto);
 
         String emailAuthNumber = (String) session.getAttribute("EMAIL_AUTH_NUMBER");
-        String dtoAuthNumber = dto.getEmailAuthNumber(); // dto에서 인증번호 가져오기
+        String dtoAuthNumber = dto.getEmailAuthNumber().trim(); // dto에서 인증번호 가져오기
 
         log.debug("Session emailAuthNumber: {}", emailAuthNumber);
         log.debug("DTO emailAuthNumber: {}", dtoAuthNumber);
 
-        if (emailAuthNumber == null || dtoAuthNumber == null || !dtoAuthNumber.equals(emailAuthNumber)) {
+        if (emailAuthNumber == null || dtoAuthNumber == null || !dtoAuthNumber.equals(emailAuthNumber.trim())) {
             log.debug("Email authentication failed: emailAuthNumber={}, dtoAuthNumber={}", emailAuthNumber, dtoAuthNumber);
             return "redirect:/user/signup?result=emailAuthFail";
         }
@@ -75,6 +75,7 @@ public class UserController {
 
         return "redirect:/user/signin";
     }
+
     
     // 사용자 아이디 중복체크 REST 컨트롤러
     @GetMapping("/checkid")

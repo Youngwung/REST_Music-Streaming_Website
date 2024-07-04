@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 회원 가입 버튼 활성화/비활성화
     function changeButtonState() {
         const btnSignUp = document.querySelector('button#btnSignUp');
-
         if (useridChecked && passwordChecked && confirmPasswordChecked && emailChecked && nicknameChecked && hintQuestionChecked && hintAnswerChecked && authNumberChecked) {
             // 버튼의 class 속성 값들 중 'disabled'를 제거 -> 버튼 활성화.
             btnSignUp.classList.remove('disabled');
@@ -137,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
             checkPasswordResult.innerHTML = '';
             checkPasswordResult.classList.remove('text-danger');
         }
-        checkConfirmPassword();
         changeButtonState(); // 버튼의 활성화/비활성화 상태를 변경
     }
 
@@ -291,11 +289,11 @@ document.addEventListener('DOMContentLoaded', () => {
             signupform.action = 'signup';
             signupform.method = 'POST';
             
-            const emailVerificationCodeInput = document.createElement('input');
-            emailVerificationCodeInput.type = 'hidden';
-            emailVerificationCodeInput.name = 'emailAuthNumber';
-            emailVerificationCodeInput.value = document.querySelector('input#emailVerificationCode').value;
-            signupform.appendChild(emailVerificationCodeInput);
+          //  const emailVerificationCodeInput = document.createElement('input');
+         //   emailVerificationCodeInput.type = 'hidden';
+           // emailVerificationCodeInput.name = 'emailAuthNumber';
+           // emailVerificationCodeInput.value = document.querySelector('input#emailVerificationCode').value;
+            //signupform.appendChild(emailVerificationCodeInput);
 
             signupform.submit();
             alert("회원 가입이 완료되었습니다.");
@@ -309,4 +307,4 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkVerificationcode() {
         btnVerifyCode.removeAttribute('disabled');
     }
-});
+}); 
