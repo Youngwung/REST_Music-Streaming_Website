@@ -90,7 +90,7 @@
             </div>
             <input type="hidden" id="hintQuestion" name="hintQuestion" value="">
             <div class="mb-3">
-                <select class="form-control" id="hintQuestionSelect" name="hintQuestionSelect" required="required">
+                <select class="form-control" id="hintQuestionSelect" name="hintQuestionSelect">
                     <option value="" selected>힌트 질문</option>
                     <option value="1">좋아하는 색깔은?</option>
                     <option value="2">핸드폰번호 뒷자리는?</option>
@@ -98,7 +98,7 @@
                 </select>
             </div>
             <div class="mb-3">
-                <input type="text" id="hintAnswer" name="hintAnswer" class="form-control" placeholder="힌트 답변" required>
+                <input type="text" id="hintAnswer" name="hintAnswer" class="form-control" placeholder="힌트 답변">
             </div>
             <div class="d-grid mb-3">
                 <input class="form-control btn btn-primary" type="submit" value="조회" />

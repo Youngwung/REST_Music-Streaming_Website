@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -88,9 +89,6 @@
                 <input type="text" id="userid" name="userId" class="form-control" 
                 placeholder="아이디를 입력해주세요" required autofocus pattern="^[a-z0-9]{5,20}$" 
                 title="5~20자의 영문 소문자와 숫자만 사용 가능합니다.">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="checkIdBtn">중복확인</button>
-                </div>
             </div>
             <div id="checkUseridResult" class="text-danger"></div>
 
@@ -133,17 +131,12 @@
                 <input type="text" id="nickname" name="nickname" class="form-control" 
                 placeholder="닉네임을 입력해주세요" required pattern="^[a-zA-Z0-9가-힣]{2,20}$"
                 title="2~20자의 영문, 숫자, 한글만 사용 가능합니다.">
-                <!-- 
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="checkNicknameBtn">중복확인</button>
-                </div>
-                 -->
             </div>
             <div id="checkNicknameResult" class="text-danger"></div>
 
             <input type="hidden" id="hintQuestion" name="hintQuestion" value="">
             <div class="mb-3">
-                <select class="form-control" id="hintQuestionSelect" name="hintQuestionSelect" required="required">
+                <select class="form-control" id="hintQuestionSelect" name="hintQuestionSelect">
                     <option value="" selected>힌트 질문</option>
                     <option value="1">좋아하는 색깔은?</option>
                     <option value="2">핸드폰번호 뒷자리는?</option>
@@ -153,7 +146,7 @@
 
             <div class="mb-3">
                 <input type="text" id="hintAnswer" name="hintAnswer" class="form-control" 
-                placeholder="힌트 답변을 입력해주세요" required>
+                placeholder="힌트 답변을 입력해주세요">
             </div>
 
             <div class="d-grid mb-3">

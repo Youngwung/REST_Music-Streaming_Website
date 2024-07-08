@@ -188,6 +188,14 @@ public class UserController {
     @PostMapping("findpassword")
     public String findpassword(User user) {
         log.debug("POST findpassword({})", user);
+        
+     // 힌트 질문과 답변이 비어있어도 비밀번호 설정 페이지로 이동
+        if ((user.getHintQuestion() == null || user.getHintQuestion().isEmpty()) &&
+            (user.getHintAnswer() == null || user.getHintAnswer().isEmpty())) {
+            String targetPage = "/user/setpassword?userId=" + user.getUserId();
+            return "redirect:" + targetPage;
+        }
+        
 
         User findUser = userService.findpassword(user);
         String targetPage = "";

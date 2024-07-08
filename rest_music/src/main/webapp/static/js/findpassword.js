@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkHintQuestion(event) {
         if (event.target.value === '') {
             hintQuestionChecked = false;
+            document.getElementById("hintQuestion").value = ''; // 기본값 설정
         } else {
             const selectedText = document.querySelector('select[name="hintQuestionSelect"] > option:checked').innerText;
             document.getElementById("hintQuestion").value = selectedText;

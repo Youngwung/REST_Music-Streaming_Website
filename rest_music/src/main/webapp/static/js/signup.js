@@ -1,3 +1,7 @@
+/*
+ * singup.jsp에 포함.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
     let useridChecked = false;
     let userNameChecked = false;
@@ -12,10 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const inputUserid = document.querySelector('input#userid');
     inputUserid.addEventListener('change', checkUserid);
-
-    const btnCheckId = document.querySelector('button#checkIdBtn');
-    btnCheckId.addEventListener('click', checkUserid);
-
+    
     const inputPassword = document.querySelector('input#password');
     inputPassword.addEventListener('change', checkPassword);
     inputPassword.addEventListener('input', checkPassword);
@@ -35,24 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const inputUserName = document.querySelector('input#username');
     inputUserName.addEventListener('change', checkUserName);
-
-    /*const inputNickname = document.querySelector('input#nickname');
-    inputNickname.addEventListener('change', function() {
-        nicknameChecked = false;
-        document.querySelector('div#checkNicknameResult').innerHTML = '';
-    });*/
-    
-    
     
     const inputNickname = document.querySelector('input#nickname');
     inputNickname.addEventListener('change', checkNickname);
     
-    
-    
-
-    /*const btnCheckNickname = document.querySelector('button#checkNicknameBtn');
-    btnCheckNickname.addEventListener('click', checkNickname);*/
-
     const inputHintQuestion = document.querySelector('select#hintQuestionSelect');
     inputHintQuestion.addEventListener('change', checkHintQuestion);
 
@@ -67,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 회원 가입 버튼 활성화/비활성화
     function changeButtonState() {
         const btnSignUp = document.querySelector('button#btnSignUp');
-        if (useridChecked && passwordChecked && confirmPasswordChecked && emailChecked && nicknameChecked && hintQuestionChecked && hintAnswerChecked && authNumberChecked) {
+        if (useridChecked && passwordChecked && confirmPasswordChecked && emailChecked && nicknameChecked && authNumberChecked) {
             btnSignUp.classList.remove('disabled');
             btnSignUp.disabled = false;
         } else {
@@ -254,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 닉네임 입력 필드의 change 이벤트 리스너
     function checkNickname(event) {
-        const nickname = event.target.value;
+        const nickname = inputNickname.value;
         const checkNicknameResult = document.querySelector('div#checkNicknameResult');
 
         if (nickname === '') {
