@@ -1,26 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let passwordChecked = false; // 비밀번호 필드 작성 여부 체크.
-    let confirmPasswordChecked = false; // 비밀번호 확인 필드 작성 여부 체크.
+    let passwordChecked = false;
+    let confirmPasswordChecked = false;
 
     const inputPassword = document.querySelector('input#password');
-    inputPassword.addEventListener('change', checkPassword);
-
     const inputConfirmPassword = document.querySelector('input#confirmPassword');
-    inputConfirmPassword.addEventListener('change', checkConfirmPassword);
+    const checkPasswordResult = document.querySelector('div#checkPasswordResult');
+    const btnSave = document.querySelector('input#btnSave');
 
+    inputPassword.addEventListener('input', checkPassword);
+    inputConfirmPassword.addEventListener('input', checkConfirmPassword);
+
+    // 비밀번호 입력 필드의 change 이벤트 리스너
     function checkPassword(event) {
-        if (event.target.value === '') { // inputPassword.value
+        const password = event.target.value;
+        const checkPasswordResult = document.querySelector('div#checkPasswordResult');
+        const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
+        if (!passwordPattern.test(password)) {
             passwordChecked = false;
+            checkPasswordResult.innerHTML = '8자 이상의 영문 대/소문자와 숫자만 사용 가능합니다.';
+            checkPasswordResult.classList.add('text-danger');
+            checkPasswordResult.classList.remove('text-success');
         } else {
             passwordChecked = true;
+            checkPasswordResult.innerHTML = '';
+            checkPasswordResult.classList.remove('text-danger');
         }
-        checkConfirmPassword();
+        changeButtonState(); // 버튼의 활성화/비활성화 상태를 변경
     }
 
-
+    // 비밀번호 확인 입력 필드의 change 이벤트 리스너
     function checkConfirmPassword(event) {
         const password = document.querySelector('input#password').value;
-        const confirmPassword = document.querySelector('input#confirmPassword').value;
+        const confirmPassword = event.target.value;
         const checkPasswordResult = document.querySelector('div#checkPasswordResult');
 
         if (password !== confirmPassword) {
@@ -34,19 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
             checkPasswordResult.classList.add('text-success');
             checkPasswordResult.classList.remove('text-danger');
         }
-        changeButtonState();
+        changeButtonState(); // 버튼의 활성화/비활성화 상태를 변경
     }
 
     function changeButtonState() {
-        const btnSave = document.querySelector('input#btnSave');
-
         if (passwordChecked && confirmPasswordChecked) {
-            // 버튼의 class 속성 값들 중 'disabled'를 제거 -> 버튼 활성화.
             btnSave.classList.remove('disabled');
+            btnSave.disabled = false;
         } else {
-            // 버튼의 class 속성에 'disabled'를 추가 -> 버튼 비활성화.
             btnSave.classList.add('disabled');
+            btnSave.disabled = true;
         }
-
     }
 });
