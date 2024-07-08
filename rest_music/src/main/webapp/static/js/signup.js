@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let useridChecked = false; 
-    let userNameChecked = false; 
-    let passwordChecked = false; 
-    let confirmPasswordChecked = false; 
-    let emailChecked = false; 
-    let nicknameChecked = false; 
-    let hintQuestionChecked = false; 
-    let hintAnswerChecked = false; 
-    let authNumberChecked = false; 
+    let useridChecked = false;
+    let userNameChecked = false;
+    let passwordChecked = false;
+    let confirmPasswordChecked = false;
+    let emailChecked = false;
+    let nicknameChecked = false;
+    let hintQuestionChecked = false;
+    let hintAnswerChecked = false;
+    let authNumberChecked = false;
     let authNumber;
 
     const inputUserid = document.querySelector('input#userid');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const inputEmail = document.querySelector('input#email');
     inputEmail.addEventListener('change', checkEmail);
-    
+
     const btnMailCheck = document.querySelector('button#mailCheckBtn');
     btnMailCheck.addEventListener('click', sendEmailAuth);
 
@@ -36,21 +36,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputUserName = document.querySelector('input#username');
     inputUserName.addEventListener('change', checkUserName);
 
+    /*const inputNickname = document.querySelector('input#nickname');
+    inputNickname.addEventListener('change', function() {
+        nicknameChecked = false;
+        document.querySelector('div#checkNicknameResult').innerHTML = '';
+    });*/
+    
+    
+    
     const inputNickname = document.querySelector('input#nickname');
     inputNickname.addEventListener('change', checkNickname);
+    
+    
+    
+
+    /*const btnCheckNickname = document.querySelector('button#checkNicknameBtn');
+    btnCheckNickname.addEventListener('click', checkNickname);*/
 
     const inputHintQuestion = document.querySelector('select#hintQuestionSelect');
     inputHintQuestion.addEventListener('change', checkHintQuestion);
 
     const inputHintAnswer = document.querySelector('input#hintAnswer');
     inputHintAnswer.addEventListener('change', checkHintAnswer);
-    
+
     const emailVerificationCode = document.querySelector('input#emailVerificationCode');
     emailVerificationCode.addEventListener('change', checkVerificationcode);
-
-    inputUserid.addEventListener('input', function(e) {
-        useridChecked = false;
-    });
 
     /* -------------------- 함수 선언 -------------------- */
     
@@ -58,11 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function changeButtonState() {
         const btnSignUp = document.querySelector('button#btnSignUp');
         if (useridChecked && passwordChecked && confirmPasswordChecked && emailChecked && nicknameChecked && hintQuestionChecked && hintAnswerChecked && authNumberChecked) {
-            // 버튼의 class 속성 값들 중 'disabled'를 제거 -> 버튼 활성화.
             btnSignUp.classList.remove('disabled');
             btnSignUp.disabled = false;
         } else {
-            // 버튼의 class 속성에 'disabled'를 추가 -> 버튼 비활성화.
             btnSignUp.classList.add('disabled');
             btnSignUp.disabled = true;
         }
@@ -71,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // userid 입력 필드의 change 이벤트 리스너:
     // 중복 아이디 체크 Ajax 요청을 보내고, 응답을 받았을 때 처리.
     function checkUserid(event) {
-        const userid = inputUserid.value; // inputUserid.value
+        const userid = inputUserid.value;
         const checkUseridResult = document.querySelector('div#checkUseridResult');
 
         if (userid === '') {
@@ -109,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch((error) => console.log(error));
     }
-    
+
     // 사용자이름 입력 필드의 change 이벤트 리스너
     function checkUserName(event) {
         if (event.target.value === '') {
@@ -224,13 +232,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('이메일을 입력해주세요.');
         }
     }
-
-    // 난수로 생성한 인증번호를 알맞게 쓰는 지 검사하는 코드
+    
+        // 난수로 생성한 인증번호를 알맞게 쓰는 지 검사하는 코드
     function checkAuthNumber(event) {
         const inputAuthNumber = document.querySelector('input#emailVerificationCode').value;
         const checkEmailVerificationResult = document.querySelector('span#emailVerificationResult');
-        console.log(inputAuthNumber);
-        console.log(authNumber);
+
         if (inputAuthNumber == authNumber) {  // 전역 변수와 비교
             authNumberChecked = true;
             checkEmailVerificationResult.innerHTML = '인증번호가 일치합니다.';
@@ -247,12 +254,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 닉네임 입력 필드의 change 이벤트 리스너
     function checkNickname(event) {
-        if (event.target.value === '') {
+        const nickname = event.target.value;
+        const checkNicknameResult = document.querySelector('div#checkNicknameResult');
+
+        if (nickname === '') {
             nicknameChecked = false;
-        } else {
-            nicknameChecked = true;
+            checkNicknameResult.innerHTML = '닉네임을 입력해주세요.';
+            checkNicknameResult.classList.add('text-danger');
+            checkNicknameResult.classList.remove('text-success');
+            return;
         }
-        changeButtonState(); // 버튼의 활성화/비활성화 상태를 변경
+
+        if (!/^[a-zA-Z0-9가-힣]{2,20}$/.test(nickname)) {
+            nicknameChecked = false;
+            checkNicknameResult.innerHTML = '닉네임은 2~20자의 영문, 숫자, 한글만 사용 가능합니다.';
+            checkNicknameResult.classList.add('text-danger');
+            checkNicknameResult.classList.remove('text-success');
+            return;
+        }
+
+        const uri = `/Rest/user/checknickname?nickname=${nickname}`; // 닉네임 중복 체크 REST API URI
+        axios
+            .get(uri)
+            .then((response) => {
+                if (response.data === 'Y') {
+                    nicknameChecked = true;
+                    checkNicknameResult.innerHTML = '사용 가능한 닉네임입니다.';
+                    checkNicknameResult.classList.add('text-success');
+                    checkNicknameResult.classList.remove('text-danger');
+                } else {
+                    nicknameChecked = false;
+                    checkNicknameResult.innerHTML = '사용할 수 없는 닉네임입니다.';
+                    checkNicknameResult.classList.add('text-danger');
+                    checkNicknameResult.classList.remove('text-success');
+                }
+                changeButtonState(); // 버튼 활성화 여부를 변경
+            })
+            .catch((error) => console.log(error));
     }
 
     // 힌트 질문 입력 필드의 change 이벤트 리스너
@@ -288,13 +326,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result) {
             signupform.action = 'signup';
             signupform.method = 'POST';
-            
-          //  const emailVerificationCodeInput = document.createElement('input');
-         //   emailVerificationCodeInput.type = 'hidden';
-           // emailVerificationCodeInput.name = 'emailAuthNumber';
-           // emailVerificationCodeInput.value = document.querySelector('input#emailVerificationCode').value;
-            //signupform.appendChild(emailVerificationCodeInput);
-
             signupform.submit();
             alert("회원 가입이 완료되었습니다.");
         }
@@ -307,4 +338,4 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkVerificationcode() {
         btnVerifyCode.removeAttribute('disabled');
     }
-}); 
+});

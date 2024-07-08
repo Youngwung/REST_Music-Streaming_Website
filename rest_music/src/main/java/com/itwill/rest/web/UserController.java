@@ -96,6 +96,16 @@ public class UserController {
         boolean result = userService.checkEmail(email);
         return ResponseEntity.ok(result ? "Y" : "N");
     }
+    
+    // 사용자 닉네임 중복체크 REST 컨트롤러
+    @GetMapping("/checknickname")
+    @ResponseBody // 메서드 리턴 값이 클라이언트로 전달되는 데이터.
+    public ResponseEntity<String> checkNickname(@RequestParam(name = "nickname") String nickname) {
+        log.debug("checkNickname(nickname={})", nickname);
+        
+        boolean result = userService.checkNickname(nickname);
+        return ResponseEntity.ok(result ? "Y" : "N");
+    }
 
     @GetMapping("/signin")
     public void signIn() {

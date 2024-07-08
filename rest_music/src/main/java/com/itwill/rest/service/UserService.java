@@ -35,6 +35,14 @@ public class UserService {
         User user = userDao.selectByEmail(email);
         return user == null;
     }
+    
+    // 닉네임 중복 체크
+    public boolean checkNickname(String nickname) {
+        log.debug("checkNickname(nickname={})", nickname);
+        
+        User user = userDao.selectByNickname(nickname);
+        return user == null;
+    }
 
     // 회원 가입 서비스
     public int create(UserCreateDto dto, HttpServletRequest request) {

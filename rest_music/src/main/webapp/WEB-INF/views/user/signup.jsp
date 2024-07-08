@@ -81,7 +81,7 @@
         </div>
     </header>
 
-   <div class="container">
+    <div class="container">
         <form class="form-signup" id="signupForm">
             <h2 class="form-signup-heading">회원가입</h2>
             <div class="input-group mb-3">
@@ -115,28 +115,32 @@
                 <input type="email" id="email" name="email" class="form-control" 
                 placeholder="예: rest@rest.com" required>
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-primary" 
-                    id="mailCheckBtn">인증번호 받기</button>
+                    <button type="button" class="btn btn-primary" id="mailCheckBtn">인증번호 받기</button>
                 </div>
             </div>
             <div id="checkEmailResult" class="text-danger"></div>
 
             <div class="input-group mb-3">
-                <input type="text" id="emailVerificationCode"
-                    name="emailAuthNumber" class="form-control"
+                <input type="text" id="emailVerificationCode" name="emailAuthNumber" class="form-control"
                     placeholder="인증번호를 입력해주세요" maxlength="6">
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-primary"
-                        id="verifyCodeBtn">인증번호 확인</button>
+                    <button type="button" class="btn btn-primary" id="verifyCodeBtn">인증번호 확인</button>
                 </div>
             </div>
             <span id="emailVerificationResult" class="text-danger"></span>
 
-            <div class="mb-3">
+            <div class="input-group mb-3">
                 <input type="text" id="nickname" name="nickname" class="form-control" 
-                placeholder="닉네임" required>
+                placeholder="닉네임을 입력해주세요" required pattern="^[a-zA-Z0-9가-힣]{2,20}$"
+                title="2~20자의 영문, 숫자, 한글만 사용 가능합니다.">
+                <!-- 
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="checkNicknameBtn">중복확인</button>
+                </div>
+                 -->
             </div>
-            
+            <div id="checkNicknameResult" class="text-danger"></div>
+
             <input type="hidden" id="hintQuestion" name="hintQuestion" value="">
             <div class="mb-3">
                 <select class="form-control" id="hintQuestionSelect" name="hintQuestionSelect" required="required">
@@ -149,7 +153,7 @@
 
             <div class="mb-3">
                 <input type="text" id="hintAnswer" name="hintAnswer" class="form-control" 
-                placeholder="힌트 답변" required>
+                placeholder="힌트 답변을 입력해주세요" required>
             </div>
 
             <div class="d-grid mb-3">

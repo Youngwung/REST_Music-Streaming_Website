@@ -14,6 +14,11 @@
         SELECT * FROM users WHERE email = #{email}
     </select>
     
+    <!-- nickname으로 사용자 조회 -->
+    <select id="selectByNickname" parameterType="String" resultType="com.itwill.rest.repository.User">
+        SELECT * FROM users WHERE nickname = #{nickname}
+    </select>
+    
     <!-- 회원 가입 -->
     <insert id="insert" parameterType="com.itwill.rest.dto.user.UserCreateDto">
     INSERT INTO users (user_id, user_name, password, email, nickname, hint_question, hint_answer)
