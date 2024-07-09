@@ -28,11 +28,12 @@
 
 	<div class="container my-3">
 	    <c:url var="genreSongsUrl" value="/song/genreChart" />
-	    <form id="genreForm" method="post" action="${genreSongsUrl}">
+	    <form id="genreForm" method="get" action="${genreSongsUrl}">
 	        <%-- 장르 목록 설정 --%>
 	        <div class="d-flex justify-content-start mb-3">
 	            <c:forEach var="genre" items="${genres}">
-	               <button type="button" class="btn btn-outline-primary me-2 genre-btn" data-genre="${genre}">${genre}</button>
+	               <button type="button" class="btn btn-outline-primary me-2 genre-btn"
+	                   data-genre-name="${genre}">${genre}</button>
 	            </c:forEach>
 	        </div>
 	    </form>
@@ -54,61 +55,65 @@
 	        </tr>
 	        </thead>
 	        <tbody id="songsTableBody">
-	            <c:forEach var="genre" items="${genreSongs}" varStatus="status">
+	            <c:forEach var="song" items="${genreSongs}" varStatus="status">
                     <tr>
                         <td><input type="checkbox" class="songCheckbox" /></td>
                         <td>${status.index + 1}</td>
-                        <td class="song-info">
-                        
+                        <td class="song-info">       
                             <%-- TODO: 앨범 상세 매핑 주소로 수정 --%>
                             <c:url var="albumDetailUrl" value="/album/detail"> 
-                                <c:param name="albumId" value="${genre.albumId}" />
+                                <c:param name="albumId" value="${song.albumId}" />
                             </c:url>
                             <a href="${albumDetailUrl}" class="album-link">
-                                <img alt="앨범표지" src="<c:url value='/data/${genre.albumImage}' />" class="img-fluid" />
-                            </a>
-                            
+                                <img alt="앨범표지" src="<c:url value='/data/${song.albumImage}' />" class="img-fluid" />
+                            </a>          
                             <%-- TODO: 음원 상세 매핑 주소로 수정 --%>
                             <c:url var="songDetailUrl" value="/song/detail">
-                                <c:param name="songId" value="${genre.songId}" />
+                                <c:param name="songId" value="${song.songId}" />
+                            </c:url>
+                            <%-- TODO: 아티스트 상세 매핑 주소로 수정 --%>
+                            <c:url var="artistDetailUrl" value="/artist/detail">
+                                <c:param name="artistId" value="${song.artistId}" />
                             </c:url>
                             <div>
                                 <a href="${songDetailUrl}" style="font: inherit; color: inherit; text-decoration: none;">
-                                    <span>${genre.title}</span>
+                                    <span>${song.title}</span><br>
                                 </a>
-                                <div>${genre.singerName}</div>
-                            </div>
-                            
+                                <a href="${artistDetailUrl}" style="font: inherit; color: gray; text-decoration: none;">
+                                    <span>${song.artistName}</span>
+                                </a>
+                            </div>      
                         </td>     
-                        <td>${genre.albumName}</td>
+                        <td>${song.albumName}</td>
                         <td>
-                            <i class="fas fa-heart ${genre.likes != null && genre.likes > 0 ? 'liked' : ''} heart-icon" 
-                                data-song-id="${genre.songId}" data-id="${genre.id}"></i> 
-                            <span class="likes-count">${genre.likes != null ? genre.likes : 0}</span>
-                        </td> 
+                            <i class="fas fa-heart ${song.likes != null && song.likes > 0 ? 'liked' : ''} heart-icon"
+                               data-song-id="${song.songId}"
+                               data-id="${loginUserId}">
+                            </i> 
+                            <span class="likes-count">${song.likes != null ? song.likes : 0}</span>
+                        </td>
                         <td>
-                            <c:url var="songPath" value="/data/${genre.songPath}" />
-                            <a href="#" class="btn btn-primary btn-sm play-btn" data-song-path="${songPath}">
+                            <c:url var="songPath" value="/data/${song.songPath}" />
+                            <a href="#" class="btn btn-primary btn-sm play-btn"
+                                data-song-path="${songPath}">
                                 <i class="fas fa-play"></i>
                             </a>
-                        </td>
-                        
+                        </td>         
                         <td>
                             <button type="button" class="btn btn-secondary btn-sm add-to-collection-btn"
-                                data-song-id="${top.songId}">
-                                <i class="fa-solid fa-list-music"></i>>
+                                data-song-id="${song.songId}">
+                                <i class="fa-solid fa-list"></i>
                             </button>
                         </td>
-                        
                         <td>
                             <button type="button" class="btn btn-secondary btn-sm add-to-playlist-btn"
-                              data-song-id="${genre.songId}"
-                              data-id="${genre.id}">
+                              data-song-id="${song.songId}"
+                              data-id="${loginUserId}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </td>
                         <td>
-                            <a href="${genre.videoLink}" target="_blank" class="btn btn-secondary btn-sm">
+                            <a href="${song.videoLink}" target="_blank" class="btn btn-secondary btn-sm">
                                 <i class="fas fa-video"></i>
                             </a>
                         </td>
@@ -163,7 +168,30 @@
             </div>
         </div>
     </div>
-
+    
+    <!-- 로그인 모달 -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">로그인 페이지로 이동</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    로그인이 필요합니다. 로그인 하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="loginCancelButton">취소</button>
+                    <button type="button" class="btn btn-primary" id="loginConfirmButton">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <!-- 모달 요소들을 footer로 사용. 모든 페이지에 사용되기 때문 -->
+        <%@ include file="../fragments/footer.jspf" %>
+    </footer>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

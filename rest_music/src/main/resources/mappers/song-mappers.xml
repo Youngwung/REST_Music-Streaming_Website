@@ -151,28 +151,32 @@
     <!-- TOP30 -->
     <select id="getAllSongs" resultType="SongChartDto">
         select
-            so.song_id,
-            a.album_image,
-            a.album_id,
-            so.title,
-            si.singer_name,
-            a.album_name,
+            s.song_id,
+            al.album_id,
+            al.album_image,
+            s.title,
+            ar.artist_id,
+            ar.artist_name,
+            al.album_name,
             count(l.song_id) as likes,
-            so.song_path,
-            so.video_link
-        from songs so
-        join albums a on so.album_id = a.album_id
-        join singers si on so.song_id = si.song_id
-        join likes l on so.song_id = l.song_id
+            s.song_path,
+            s.video_link
+        from songs s
+        join albums al on s.album_id = al.album_id
+        join artist_roles role on s.song_id = role.song_id
+        join artists ar on role.artist_id = ar.artist_id
+        left join likes l on s.song_id = l.song_id
+        where role.role_id = (select role_id from role_code where role_name = '가수')
         group by
-            so.song_id,
-            a.album_image,
-            a.album_id,
-            so.title,
-            si.singer_name,
-            a.album_name,
-            so.song_path,
-            so.video_link
+            s.song_id,
+            al.album_id,
+            al.album_image,
+            s.title,
+            ar.artist_id,
+            ar.artist_name,
+            al.album_name,
+            s.song_path,
+            s.video_link
         order by count(l.song_id) desc
     </select>
 
@@ -180,28 +184,34 @@
     <select id="getSongsByGenre" resultType="SongChartDto">
         select
             so.song_id,
-            so.genre,
-            a.album_image,
-            a.album_id,
+            gc.genre_name,
+            al.album_id,
+            al.album_image,
             so.title,
-            si.singer_name,
-            a.album_name,
+            ar.artist_id,
+            ar.artist_name,
+            al.album_name,
             count(l.song_id) as likes,
             so.song_path,
             so.video_link
         from songs so
-        join albums a on so.album_id = a.album_id
-        join singers si on so.song_id = si.song_id
-        join likes l on so.song_id = l.song_id
-        where genre = #{genre}
+        join albums al on so.album_id = al.album_id
+        join song_genre sg on so.song_id = sg.song_id
+        join genre_code gc on sg.genre_id = gc.genre_id
+        join artist_roles role on so.song_id = role.song_id
+        join artists ar on role.artist_id = ar.artist_id
+        left join likes l on so.song_id = l.song_id
+        where sg.genre_id = (select genre_id from genre_code where genre_name = #{genreName})
+        and role.role_id = (select role_id from role_code where role_name = '가수')
         group by
             so.song_id,
-            so.genre,
-            a.album_image,
-            a.album_id,
+            gc.genre_name,
+            al.album_id,
+            al.album_image,
             so.title,
-            si.singer_name,
-            a.album_name,
+            ar.artist_id,
+            ar.artist_name,
+            al.album_name,
             so.song_path,
             so.video_link
         order by count(l.song_id) desc

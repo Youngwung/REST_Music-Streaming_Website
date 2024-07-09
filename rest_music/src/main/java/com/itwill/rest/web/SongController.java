@@ -21,6 +21,7 @@ import com.itwill.rest.dto.song.SongLikeDto;
 import com.itwill.rest.dto.song.SongSearchDto;
 import com.itwill.rest.service.SongService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -88,30 +89,35 @@ public class SongController {
 	
 	// top30 차트
 	@GetMapping("/popularChart")
-	public void showPopularSongs(Model model) {
+	public void showPopularSongs(Model model, HttpSession session) {
 		log.debug("showPopularSongs({})", model);
 
-		List<SongChartDto> list = songService.readTopSongs();
-		model.addAttribute("topSongs", list);
-	}
+		Integer id = (Integer) session.getAttribute("loginUserId");
+		log.debug("Session loginUserId: {}", id);
+		id = (id == null) ? 0 : id;
 
+		List<SongChartDto> list = songService.readTopSongs(id);
+		model.addAttribute("topSongs", list);
+		model.addAttribute("loginUserId", id);
+	}
+	
 	// 전체 or 장르별 차트
 	@GetMapping("/genreChart")
-	public String showSongs(Model model, @RequestParam(name = "genre", required = false) String genre) {
-		log.debug("showSongs(model = {}, genre = {})", model, genre);
-
-		List<SongChartDto> list;
-		if (genre == null || genre.equals("전체")) {
-			list = songService.readAllSongs();
-			model.addAttribute("genreSongs", list);
-			model.addAttribute("genres", Arrays.asList("전체", "OST", "댄스", "발라드", "팝", "힙합"));
-			return "/song/genreChart";
-		} else {
-			list = songService.readSongsByGenre(genre);
-			model.addAttribute("genreSongs", list);
-			model.addAttribute("genres", Arrays.asList("전체", "OST", "댄스", "발라드", "팝", "힙합"));
-			return "/song/genreChart";
-		}
+	public String showSongs(Model model, @RequestParam(name = "genreName", required = false, defaultValue = "전체") String genreName, HttpSession session) {
+		log.debug("showSongs(model = {}, genreName = {})", model, genreName);
+		
+		Integer id = (Integer) session.getAttribute("loginUserId");
+	    id = (id == null) ? 0 : id;
+	    
+	    List<SongChartDto> list = "전체".equals(genreName) 
+	            ? songService.readAllSongs(id)
+	            : songService.readSongsByGenre(genreName, id);
+	    
+	    model.addAttribute("genreSongs", list);
+	    model.addAttribute("genres", Arrays.asList("전체", "OST", "댄스", "발라드", "팝", "힙합"));
+	    model.addAttribute("loginUserId", id);
+	    return "/song/genreChart";
+	    
 	}
 	
 }

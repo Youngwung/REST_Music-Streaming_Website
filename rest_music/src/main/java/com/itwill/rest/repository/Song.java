@@ -13,6 +13,5 @@ public class Song {
 	private String songPath;
 	private String lyrics;
 	private String videoLink;
-	private String genre;
 	
 }

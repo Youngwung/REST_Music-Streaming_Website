@@ -106,29 +106,33 @@ public class SongService {
 		return result;
 
 	}
-
+	
 	// top30
-	public List<SongChartDto> readTopSongs() {
+	public List<SongChartDto> readTopSongs(Integer id) {
 		log.debug("readTopSongs()");
 
 		List<SongChartDto> list = songDao.getAllSongs();
-		return list.stream().limit(30).toList();
+		return list.stream().limit(30).peek(song -> song.setId(id)).toList();
 	}
-
+		
 	// 전체 차트
-	public List<SongChartDto> readAllSongs() {
+	public List<SongChartDto> readAllSongs(Integer id) {
 		log.debug("readAllSongs()");
 
 		List<SongChartDto> list = songDao.getAllSongs();
-		return list;
+		return list.stream()
+	               .peek(song -> song.setId(id))
+	               .toList();
 	}
 
 	// 장르별 차트
-	public List<SongChartDto> readSongsByGenre(String genre) {
-		log.debug("readSongsByGenre({})", genre);
+	public List<SongChartDto> readSongsByGenre(String genreName, Integer id) {
+		log.debug("readSongsByGenre({})", genreName);
 
-		List<SongChartDto> list = songDao.getSongsByGenre(genre);
-		return list;
+		List<SongChartDto> list = songDao.getSongsByGenre(genreName);
+		return list.stream()
+	               .peek(song -> song.setId(id))
+	               .toList();
 	}
 
 }
