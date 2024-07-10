@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class UserLikeDto {
 	private Integer id;
 	private Integer songId;
+	private Integer albumId;
 	private String userId;
 	private String songPath;
 	private String title;

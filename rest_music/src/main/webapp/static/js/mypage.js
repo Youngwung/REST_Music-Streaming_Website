@@ -81,12 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         for (let playlist of data) {
             // 기본 이미지 URL 정의
-            const defaultImage = '../images/default.png';
+            const defaultImage = '../images/icon/default.png';
             // 삭제 이미지 URL 정의
-            const deleteImage = '../images/delete.png';
+            const deleteImage = '../images/icon/delete.png';
 
             // ${playlist.albumImage}가 null이면 기본 이미지 사용
-            const albumImageSrc = playlist.albumImage ? `../images/${playlist.albumImage}` : defaultImage;
+            const albumImageSrc = playlist.albumImage ? `../images/albumcover/${playlist.albumImage}` : defaultImage;
 
             console.log(playlist);
             htmlStr += `
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         divPlayLists.innerHTML = htmlStr;
         
         // 플리가 비어있으면 플레이리스트를 출력하는 부분에 해당 텍스트, defaultListImage 출력.
-        const defaultListImage = '../images/myPlayListEmpty.png';
+        const defaultListImage = '../images/icon/myPlayListEmpty.png';
         console.log(playlistCount);
         if (playlistCount == 0) {
             htmlStr += `
@@ -201,24 +201,31 @@ document.addEventListener('DOMContentLoaded', () => {
         // 좋아요 목록 HTML 코드
         let htmlStr = '';
         // 좋아요 목록을 카운트
-        let likeCount = 0;        
+        let likeCount = 0;
+        
+        // 플레이 이미지
+        const playImage = '../images/icon/play.png'
         
         for (let like of data) {
             // 기본 이미지 URL 정의
-            const defaultImage = '../images/default.png';
+            const defaultImage = '../images/icon/default.png';
             // 좋아요 이미지 URL 정의
             /*const deleteImage = '../images/delete.png';*/
 
+            // albumPage, songPage, artistPage로 이동할 주소 지정
+            const albumPage = `/Rest/album/detail?albumId=${like.albumId}`;
             const songPage = `/Rest/song/detail?songId=${like.songId}`;
             const artistPage = `/Rest/artist/songs?artistId=${like.artistId}`;
             // ${like.albumImage}가 null이면 기본 이미지 사용
-            const albumImageSrc = like.albumImage ? `../images/${like.albumImage}` : defaultImage;
+            const albumImageSrc = like.albumImage ? `../images/albumcover/${like.albumImage}` : defaultImage;
 
             console.log(like);
             htmlStr += `
             <tr>
                 <td style="text-align: left; vertical-align: middle;">
-                    <img alt="songImg" src="${albumImageSrc}" width="80px" height="80px">
+                    <a href="${albumPage}"><a href="${albumPage}">
+                        <img alt="songImg" src="${albumImageSrc}" width="80px" height="80px">
+                    </a>
                 </td>
                 <td style="text-align: left; vertical-align: middle; font-size: 14px;">
                     <a href=${songPage} style="color: black; text-decoration: none;"
@@ -227,6 +234,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td style="text-align: left; vertical-align: middle; font-size: 14px;">
                     <a href=${artistPage} style="color: black; text-decoration: none;"
                         onmouseover="this.style.color='blue';" onmouseout="this.style.color='black';">${like.artistName}</a>
+                </td>
+                <td style="text-align: center;">
+                    <button style="background-image: url('${playImage}'); width: 40px; height: 40px; background-size: cover; background-repeat: no-repeat;"
+                    data-songId="${like.songId}" class="playButton btn mt-3" id="listenBtn"></button>
                 </td>
             </tr>
             `;
@@ -238,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         likeTableBody.innerHTML = htmlStr;
         
         // 좋아요 목록이 비어있으면 목록 출력하는 부분에 해당 텍스트, defaultListImage 출력.
-        const defaultListImage = '../images/defaultList.png';
+        const defaultListImage = '../images/icon/defaultList.png';
         console.log(likeCount);
         if (likeCount == 0) {
             htmlStr += `
@@ -250,6 +261,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 `
             likeCardBody.innerHTML = htmlStr;
+        }
+        
+        // 좋아요 곡 재생버튼 기능
+        const play = document.querySelectorAll('button.playButton'); // htmlStr로 추가된 html 영역의 button 태그의 클래스 이름을 지정
+        for (let button of play) {
+            button.addEventListener('click', () => {
+                const songId = button.getAttribute('data-songId');
+                console.log('클릭한 플레이리스트의 songId:', songId);
+                window.location.href = `../song/listen?songId=${songId}`;
+            });
         }
     }
 

@@ -9,6 +9,7 @@ import com.itwill.rest.dto.user.UserUpdateDto;
 public interface UserDao {
     User selectByUserId(String userId);
     User selectByEmail(String email);
+    User selectByNickname(String nickname);
     int insert(User user);
     User selectByUserIdAndPassword(UserSignInDto dto);
 	User selectByUserid(String userid);

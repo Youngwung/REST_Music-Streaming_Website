@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"><!--initial-scale=1는 브라우저 기본 비율 이용 -->
@@ -61,9 +62,13 @@
             <% if ("f".equals(request.getParameter("result"))) { %>
                 <div class="text-danger">일치하는 정보가 없습니다.</div>
             <% } %>
+            
             <div class="mb-3">
-                <input type="password" id="password" name="password" class="form-control" placeholder="새 비밀번호" required>
+                <input type="password" id="password" name="password" class="form-control" 
+                placeholder="새 비밀번호" required pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$" 
+                title="8자 이상의 영문 대/소문자와 숫자를 포함해야 합니다.">
             </div>
+            
             <div class="mb-3">
                 <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="비밀번호 확인" required>
             </div>
@@ -72,19 +77,13 @@
 
             <div class="d-grid mb-3">
                 <input class="form-control btn btn-primary disabled"
-                       type="submit" value="저장" id="btnSave"/>
+                       type="submit" value="저장" id="btnSave" disabled/>
             </div>
         </form>
     </div>
 </div>
 
 <script src="<%=request.getContextPath()%>/js/setpassword.js"></script>
-<script>
-    function checkBeforeSubmit() {
-        alert("zz")
-    }
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous">

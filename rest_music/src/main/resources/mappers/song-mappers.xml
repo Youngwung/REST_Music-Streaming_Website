@@ -126,7 +126,7 @@
                     AND CONTAINS(art.artist_name, #{searchKeyword}, 1) > 0
                 </when>
                 <when test='category.equals("ts")'>
-                    AND (CONTAINS(s.title, #{keyword}, 1) > 0
+                    AND (CONTAINS(s.title, #{searchKeyword}, 1) > 0
                     OR CONTAINS(art.artist_name, #{searchKeyword}, 2) > 0)
                 </when>
                 <when test='category.equals("a")'>

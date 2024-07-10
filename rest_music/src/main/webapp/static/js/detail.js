@@ -91,10 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let htmlStr = '';
         for (let playlist of data) {
             // 기본 이미지 URL 정의
-            const defaultImage = '../images/default.png';
+            const defaultImage = '../images/icon/default.png';
 
             // ${playlist.albumImage}가 null이면 기본 이미지 사용
-            const albumImageSrc = playlist.albumImage ? `../images/${playlist.albumImage}` : defaultImage;
+            const albumImageSrc = playlist.albumImage ? `../images/albumcover/${playlist.albumImage}` : defaultImage;
 
 
             htmlStr += `

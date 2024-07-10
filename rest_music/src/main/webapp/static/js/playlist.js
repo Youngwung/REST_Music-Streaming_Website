@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let recentSong = null;
 
         // 기본 이미지 URL 정의
-        const defaultImage = '../images/default.png';
-        const playImage = '../images/play.png'
+        const defaultImage = '../images/icon/default.png';
+        const playImage = '../images/icon/play.png'
 
         for (let playlistSong of data) {
             
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const artistPage = `/Rest/artist/songs?artistId=${playlistSong.artistId}`;
 
             // ${playlist.albumImage}가 null이면 기본 이미지 사용
-            const albumImageSrc = playlistSong.albumImage ? `../images/${playlistSong.albumImage}` : defaultImage;
+            const albumImageSrc = playlistSong.albumImage ? `../images/albumcover/${playlistSong.albumImage}` : defaultImage;
 
             // 가장 최근에 추가된 곡을 설정
             if (!recentSong || playlistSong.createdTime > recentSong.createdTime) {
@@ -78,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a href="${artistPage}" style="color: black; text-decoration: none;"
                         onmouseover="this.style.color='blue';" onmouseout="this.style.color='black';">${playlistSong.artistName}</a>
                 </td>
-                <td style="text-align: left;">
-                    <button style="background-image: url('${playImage}'); width: 50px; height: 50px; background-size: cover; background-repeat: no-repeat;"
+                <td style="text-align: center;">
+                    <button style="background-image: url('${playImage}'); width: 40px; height: 40px; background-size: cover; background-repeat: no-repeat;"
                     data-songId="${playlistSong.songId}" class="playButton btn mt-3" id="listenBtn"></button>
                 </td>
             </tr>
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         songCountElement.textContent = songCount; // 곡 수 업데이트
 
         // 추가된 곡이 없으면(플리가 비어있으면) 리스트를 출력하는 부분에 해당 텍스트, defaultListImage 출력.
-        const defaultListImage = '../images/defaultList.png';
+        const defaultListImage = '../images/icon/defaultList.png';
         const albumCoverImg = document.querySelector('img[alt="albumCover"]'); // 플레이리스트 커버(이미지) 태그 지정
 
         if (songCount == 0) {
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 가장 최근에 추가된 곡의 앨범 커버 이미지 설정
         if (recentSong) {
-            const recentAlbumImageSrc = recentSong.albumImage ? `../images/${recentSong.albumImage}` : defaultImage;
+            const recentAlbumImageSrc = recentSong.albumImage ? `../images/albumcover/${recentSong.albumImage}` : defaultImage;
             albumCoverImg.src = recentAlbumImageSrc;
         }
         

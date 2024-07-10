@@ -21,6 +21,8 @@
         JOIN albums al ON s.album_id = al.album_id
         JOIN artists a ON ar.artist_id = a.artist_id
         WHERE ar.artist_id = #{artistId}
+        ORDER BY
+        song_title
     </select>
     
     <select id="selectAlbumsByArtistId" resultType="ArtistAlbumDto">

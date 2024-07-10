@@ -12,7 +12,7 @@
             -->
       select a.album_id, a.album_name, 
         s.song_id, ts.song_id as title_song, s.title, s.song_path, gc.genre_name, 
-        art.artist_name, art.artist_image, art.artist_description,
+        art.artist_id, art.artist_name, art.artist_image, art.artist_description,
         count(l.id) as likes_count
       from albums a
         join songs s on a.album_id = s.album_id

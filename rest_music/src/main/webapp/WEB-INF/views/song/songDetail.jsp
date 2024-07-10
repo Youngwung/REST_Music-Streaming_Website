@@ -28,7 +28,7 @@
             <div class="p-3">
                 <div class="">
                     <c:url var="albumCover"
-                        value="/images/${data.albumImage}"></c:url>
+                        value="/images/albumcover/${data.albumImage}"></c:url>
                     <img alt="albumCover" src="${albumCover}"
                         class="rounded "
                         style="display: inline-block; vertical-align: middle; left: 400px; width: 220px; height: 220px;">
@@ -47,15 +47,15 @@
                         <div class="mt-3">
                             <button id="btnLike" class="btn fs-3"></button>
                             <button data-id="${data.songId}"
-                                id="listenBtn" title="재생" class="btn" style="background-image: url('../images/play.png'); 
+                                id="listenBtn" title="재생" class="btn" style="background-image: url('../images/icon/play.png'); 
                                 width: 45px; height: 45px; background-size: cover; background-repeat: no-repeat;"></button>
                                 
                             <button data-id="${data.songId}"
-                                id="" title="재생목록에 추가" class="btn ms-1" style="background-image: url('../images/playList.png'); 
+                                id="" title="재생목록에 추가" class="btn ms-1" style="background-image: url('../images/icon/playList.png'); 
                                 width: 60px; height: 60px; background-size: cover; background-repeat: no-repeat;"></button>
                                 
                             <button id="btnAddPlayList"
-                                class="btn ms-1" title="내 리스트에 담기" style="background-image: url('../images/myPlayList.png'); 
+                                class="btn ms-1" title="내 리스트에 담기" style="background-image: url('../images/icon/myPlayList.png'); 
                                 width: 50px; height: 50px; background-size: cover; background-repeat: no-repeat;"></button>
                         </div>
                     </div>

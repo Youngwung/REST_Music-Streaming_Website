@@ -1,0 +1,9 @@
+-- score 위해 필요
+-- Title 컬럼에 텍스트 인덱스 생성
+CREATE INDEX song_title_idx ON songs(title) INDEXTYPE IS CTXSYS.CONTEXT;
+
+-- Artist_name 컬럼에 텍스트 인덱스 생성
+CREATE INDEX artist_name_idx ON artists(artist_name) INDEXTYPE IS CTXSYS.CONTEXT;
+
+-- Album_name 컬럼에 텍스트 인덱스 생성
+CREATE INDEX album_name_idx ON albums(album_name) INDEXTYPE IS CTXSYS.CONTEXT;

@@ -35,7 +35,7 @@
     <div class="container-fluid" style="padding: 30px;">
         <div class="m-5 ">
             <div class="p-3">
-                <c:url var="artistCover" value="/artist/${artist.artistImage}" />
+                <c:url var="artistCover" value="/artist/image/${artist.artistImage}" />
                 <c:url var="songPage" value="/artist/songs?artistId=${artist.artistId}" /> <!-- 아티스트의 곡 페이지 이동 주소 지정 -->
                 <c:url var="albumPage" value="/album/detail?albumId=${artist.artistId}" /> <!-- 아티스트의 앨범 상세 페이지 이동 주소 지정 -->
                 <img alt="artistCover" src="${artistCover}" class="rounded-circle"
@@ -59,7 +59,7 @@
                     <c:catch var="error">
                         <%-- 파일 읽기를 시도하고 에러가 발생할 경우 처리 --%>
                         <c:set var="filePath"
-                            value="/static/artist/${artist.artistDescription}" />
+                            value="/static/artist/description/${artist.artistDescription}" />
                         <%
                         ServletContext context = request.getServletContext();
                         String realPath = context.getRealPath((String) pageContext.getAttribute("filePath"));
@@ -101,7 +101,7 @@
                                     <div class="row g-0">
                                         <div class="col-5"> <!-- 이미지 열 너비 조정 -->
                                             <c:url var="albumPage" value="/album/detail?albumId=${a.albumId}" />
-                                            <c:url var="albumImage" value="/images/${a.albumImage}" />
+                                            <c:url var="albumImage" value="/images/albumcover/${a.albumImage}" />
                                             <a href="${albumPage}">
                                                 <img src="${albumImage}" class="img-fluid rounded-start" alt="Album Cover"
                                                     style="width: 100%; height: 100%; object-fit: cover;">

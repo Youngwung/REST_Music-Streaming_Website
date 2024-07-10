@@ -41,12 +41,30 @@
 
   <!-- MyBatis-Spring 프레임워크에서 생성하고 관리하는 bean을 설정:
     base-package와 그 하위 패키지에 있는 인터페이스들을 구현한 객체를 생성해 줌.-->
-  <mybatis:scan base-package="com.itwill.rest.repository"></mybatis:scan>
+  <mybatis:scan base-package="com.itwill.rest.repository" />
 
   <!-- 스프링 컨테이너에서 컴포넌트 빈 들을 검색할 기본 패키지를 설정.
       스프링 컨테이너가 설정된 패키지와 그 하위 패키지를 검색해서 
       컴포넌트 애너테이션(예: @Service, @Component, ...)이 선언된 클래스의 객체를 생성/관리.
       필요한 곳에 의존성을 주입해 줌. -->
   <context:component-scan base-package="com.itwill.rest.service" />
+  <!--   <context:component-scan base-package="com.itwill.rest.web" /> -->
+  
+  <!-- JavaMailSender 빈 정의 -->
+  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com" />
+      <property name="port" value="587" />
+      <property name="username" value="ourrestmusic@gmail.com" />
+      <property name="password" value="luzhvwdfovgyfmkm" />
+      <property name="defaultEncoding" value="utf-8" />
+      <property name="javaMailProperties">
+          <props>
+              <prop key="mail.transport.protocol">smtp</prop>
+              <prop key="mail.smtp.auth">true</prop>
+              <prop key="mail.smtp.starttls.enable">true</prop>
+              <prop key="mail.debug">true</prop>
+          </props>
+      </property>
+  </bean>
   
 </beans>

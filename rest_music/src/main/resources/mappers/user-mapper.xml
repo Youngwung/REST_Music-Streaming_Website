@@ -14,6 +14,11 @@
         SELECT * FROM users WHERE email = #{email}
     </select>
     
+    <!-- nickname으로 사용자 조회 -->
+    <select id="selectByNickname" parameterType="String" resultType="com.itwill.rest.repository.User">
+        SELECT * FROM users WHERE nickname = #{nickname}
+    </select>
+    
     <!-- 회원 가입 -->
     <insert id="insert" parameterType="com.itwill.rest.dto.user.UserCreateDto">
     INSERT INTO users (user_id, user_name, password, email, nickname, hint_question, hint_answer)
@@ -34,6 +39,7 @@
     SELECT
     al.album_image,
     s.song_id,
+    s.album_id,
     s.title,
     ar.artist_id,
     ar.artist_name,
@@ -46,6 +52,8 @@
     JOIN artists ar ON arr.artist_id = ar.artist_id
     WHERE
     l.id = #{id}
+    ORDER BY
+    s.title
     </select>
     
     <select id="findUserId" resultType="User" parameterType="User">
@@ -54,12 +62,15 @@
         from users where user_name = #{userName} and email = #{email}
     </select>
 
+    <!-- 비밀번호 찾기 -->
     <select id="findpassword" resultType="User" parameterType="User">
-        select user_id from users
+        select user_id, email, hint_question, hint_answer from users
         where user_id = #{userId} and email = #{email}
-        and hint_question = #{hintQuestion} and hint_answer = #{hintAnswer}
+        and (hint_question = #{hintQuestion} or (hint_question is null and #{hintQuestion} = 'null'))
+        and (hint_answer = #{hintAnswer} or (hint_answer is null and #{hintAnswer} = 'null'))
     </select>
 
+    <!-- 비밀번호 설정 -->
     <update id="setpassword" parameterType="User">
         update users
         set password = #{password}

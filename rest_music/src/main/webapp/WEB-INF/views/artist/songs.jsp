@@ -28,7 +28,7 @@
     <div class="container-fluid" style="padding: 30px;">
         <div class="m-5 ">
             <div class="p-3">
-                <c:url var="artistCover" value="/artist/${artist.artistImage}" /> <!-- 아티스트 이미지 주소 지정 -->
+                <c:url var="artistCover" value="/artist/image/${artist.artistImage}" /> <!-- 아티스트 이미지 주소 지정 -->
                 <c:url var="albumPage" value="/artist/albums?artistId=${artist.artistId}" /> <!-- 아티스트의 앨범 페이지 이동 주소 지정 -->
                 <img alt="artistCover" src="${artistCover}" class="rounded-circle"
                     style="display: inline-block; vertical-align: middle; left: 400px; width: 240px; height: 240px; object-fit: cover;">
@@ -51,7 +51,7 @@
                     <c:catch var="error">
                         <%-- 파일 읽기를 시도하고 에러가 발생할 경우 처리 --%>
                         <c:set var="filePath"
-                            value="/static/artist/${artist.artistDescription}" />
+                            value="/static/artist/description/${artist.artistDescription}" />
                         <%
                         ServletContext context = request.getServletContext();
                         String realPath = context.getRealPath((String) pageContext.getAttribute("filePath"));
@@ -89,24 +89,26 @@
                     <thead>
                         <tr>
                             <!-- 전체 선택 체크박스 추가 -->
-                            <th style="text-align: center; vertical-align: middle;">
+                            <!--    <th style="text-align: center; vertical-align: middle;">
                                 <input type="checkbox" id="selectAllCheckbox">
-                            </th>
+                            </th>  -->
                             <th style="text-align: left; vertical-align: middle;">커버</th>
                             <th style="text-align: left; vertical-align: middle;">노래 제목</th>
                             <th style="text-align: left; vertical-align: middle;">아티스트</th>
-                            <th style="text-align: left; vertical-align: middle;">듣기</th>
+                            <th style="text-align: center; vertical-align: middle;">듣기</th>
+                            <th style="text-align: center; vertical-align: middle;">내 리스트</th>
                         </tr>
                     </thead>
                     <tbody id="songsTableBody">
                         <c:forEach items="${ songs }" var="s">
-                        <c:url var="albumImage" value="/images/${s.albumImage}" />
-                        <c:url var="playImage" value="/images/play.png" />
+                        <c:url var="albumImage" value="/images/albumcover/${s.albumImage}" />
+                        <c:url var="playImage" value="/images/icon/play.png" />
+                        <c:url var="myPlayListImage" value="/images/icon/myPlayList.png" />
                         <c:url var="songPage" value="/song/detail?songId=${s.songId}" />
                             <tr>
-                                <td style="text-align: center; vertical-align: middle;">
+                                <!--    <td style="text-align: center; vertical-align: middle;">
                                     <input type="checkbox" class="songCheckbox" data-songId="${s.songId}">
-                                </td>
+                                </td>   -->
                                 <td style="text-align: left; vertical-align: middle; font-size: 14px;">
                                     <img src="${albumImage}" width="80px" height="80px">
                                 </td>
@@ -115,11 +117,16 @@
                                         onmouseover="this.style.color='blue';" onmouseout="this.style.color='black';">${s.songTitle}</a>
                                 </td>
                                 <td style="text-align: left; vertical-align: middle; font-size: 14px;">${s.artistName}</td>
-                                <td style="text-align: left; vertical-align: middle;">
+                                <td style="text-align: center; vertical-align: middle;">
                                     <button style="background-image: url('${playImage}'); 
-                                        width: 50px; height: 50px; background-size: cover; background-repeat: no-repeat;"
+                                        width: 40px; height: 40px; background-size: cover; background-repeat: no-repeat;"
                                         data-songId="${s.songId}" class="playButton btn" id="listenBtn"
                                         onclick="window.location.href = '/Rest/frameset/${s.songId}'"></button>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <button style="background-image: url('${myPlayListImage}'); 
+                                        width: 40px; height: 40px; background-size: cover; background-repeat: no-repeat;"
+                                        data-songId="${s.songId}" class="addPlayList btn"></button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -164,5 +171,14 @@
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+        
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+    <script>
+    let loginUserId ='${loginUserId}';
+    </script>
+    
+    <c:url var="artistSongsJS" value="/js/artist_songs.js" />
+    <script src="${artistSongsJS}"></script>
 </body>
 </html>

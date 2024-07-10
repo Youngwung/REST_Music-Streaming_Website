@@ -98,7 +98,7 @@
                                 onclick="location.href='${songDetailsPage}'">
                                 <td style="width: 118px;"><img
                                     alt="albumcover"
-                                    src="../images/${r.albumImage}"
+                                    src="../images/albumcover/${r.albumImage}"
                                     class="img-thumbnail" width="120px"
                                     height="120px" /></td>
                                 <td style="width: 60%;"><span
@@ -107,15 +107,15 @@
                                 <td><br /> <span
                                     class="text-center fw-bold">${r.singerName}</span></td>
                                 <td style="text-align: center;"><button
-                                        style="background-image: url('../images/play.png'); width: 50px; height: 50px; background-size: cover; background-repeat: no-repeat;"
+                                        style="background-image: url('../images/icon/play.png'); width: 50px; height: 50px; background-size: cover; background-repeat: no-repeat;"
                                         data-id="${r.songId}"
                                         class="btnListen btn mt-3"
                                         id="listenBtn"></button></td>
                                 <td style="text-align: center;"><button
-                                        style="background-image: url('../images/playList.png'); width: 60px; height: 60px; background-size: cover; background-repeat: no-repeat;"
+                                        style="background-image: url('../images/icon/playList.png'); width: 60px; height: 60px; background-size: cover; background-repeat: no-repeat;"
                                         class="btn addNextPlay mt-3"></button></td>
                                 <td style="text-align: center;"><button
-                                        style="background-image: url('../images/myPlayList.png'); width: 55px; height: 55px; background-size: cover; background-repeat: no-repeat;"
+                                        style="background-image: url('../images/icon/myPlayList.png'); width: 55px; height: 55px; background-size: cover; background-repeat: no-repeat;"
                                         class="btn addPlayList mt-3"></button></td>
                             </tr>
                         </c:forEach>

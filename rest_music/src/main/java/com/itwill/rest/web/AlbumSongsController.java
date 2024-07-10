@@ -41,6 +41,7 @@ public class AlbumSongsController {
 		model.addAttribute("albumSongs", list);
 
 		AlbumSongs album = albumSongsService.selectAlbumByAlbumId(albumIdInteger);
+		System.out.println("sssssssssssaeeraaedddddddddddddddddddddddddddddddddddddddddddddddddddddddddd + " + album);
 		log.debug("album = {}", album);
 		// 앨범의 정보를 뷰의 전달
 		model.addAttribute("album", album);

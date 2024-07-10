@@ -71,7 +71,7 @@
     JOIN artist_roles arr ON s.song_id = arr.song_id
     JOIN artists ar ON arr.artist_id = ar.artist_id
     WHERE
-    pl.p_list_id = #{pListId}
+    pl.p_list_id = #{pListId} and arr.role_id = 10
     ORDER BY
     ps.created_time DESC
     </select>

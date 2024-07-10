@@ -139,15 +139,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         newRow.onclick = function() { location.href = songDetailsPage; };
 
                         newRow.innerHTML = `
-                            <td style="width: 118px;"><img alt="albumcover" src="../images/${item.albumImage}" 
+                            <td style="width: 118px;"><img alt="albumcover" src="../images/albumcover/${item.albumImage}" 
                              class="img-thumbnail" width="120px" height="120px"/></td>
                             <td style="width:60%;"><span class="fs-4">${item.title}</span> <br/> <br/> ${item.albumName}</td>
                             <td><br/><span class="text-center fw-bold">${item.singerName}</span></td>
-                            <td style="text-align: center;"><button data-id="${item.songId}" style="background-image: url('../images/play.png'); width:50px; height:50px;
+                            <td style="text-align: center;"><button data-id="${item.songId}" style="background-image: url('../images/icon/play.png'); width:50px; height:50px;
                              background-size: cover; background-repeat: no-repeat;" id="listenBtn" class="btnListen btn mt-3"></button></td>
-                             <td style="text-align: center;"><button style="background-image: url('../images/playList.png'); width: 60px; height: 60px; background-size: cover; 
+                             <td style="text-align: center;"><button style="background-image: url('../images/icon/playList.png'); width: 60px; height: 60px; background-size: cover; 
                              background-repeat: no-repeat;" class="btn addNextPlay mt-3"></button></td>
-                            <td style="text-align: center;"><button style="background-image: url('../images/myPlayList.png'); width:55px; height:55px;
+                            <td style="text-align: center;"><button style="background-image: url('../images/icon/myPlayList.png'); width:55px; height:55px;
                             background-size: cover; background-repeat: no-repeat;" class="btn addPlayList mt-3"></button></td>
                         `;
 
@@ -225,10 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let htmlStr = '';
         for (let playlist of data) {
             // 기본 이미지 URL 정의
-            const defaultImage = '../images/default.png';
+            const defaultImage = '../images/icon/default.png';
 
             // ${playlist.albumImage}가 null이면 기본 이미지 사용
-            const albumImageSrc = playlist.albumImage ? `../images/${playlist.albumImage}` : defaultImage;
+            const albumImageSrc = playlist.albumImage ? `../images/albumcover/${playlist.albumImage}` : defaultImage;
 
 
             htmlStr += `

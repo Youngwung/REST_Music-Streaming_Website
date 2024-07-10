@@ -39,7 +39,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#changeProfileModal">프로필 변경</button>
                 </div>
             </div>
-            
+                  
             <div class="mb-3">
                 <label for="userName" class="form-label">이름</label>
                 <input type="text" class="form-control" id="userName" name="userName" value="${user.userName}" readonly autofocus>
@@ -50,25 +50,48 @@
             </div>
             <div class="mb-3">
                 <label for="nickname" class="form-label">닉네임</label>
-                <input type="text" class="form-control" id="nickname" name="nickname" value="${user.nickname}" required>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="nickname" name="nickname" value="${user.nickname}" required>
+                </div>
+                <div id="checkNicknameResult" class="form-text"></div>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">이메일</label>
-                <input type="email" class="form-control" id="email" name="email" value="${user.email}" required>
+                <div class="input-group">
+                    <input type="email" class="form-control" id="email" name="email" value="${user.email}" required>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" id="mailCheckBtn">인증번호 받기</button>
+                    </div>
+                </div>
+                <div id="checkEmailResult" class="form-text text-danger"></div>
             </div>
+            <div class="input-group mb-3">
+                <input type="text" id="emailVerificationCode" name="emailAuthNumber" class="form-control"
+                       placeholder="인증번호를 입력해주세요" maxlength="6" disabled>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary" id="verifyCodeBtn">인증번호 확인</button>
+                </div>
+            </div>
+            <div id="emailVerificationResult" class="form-text text-danger"></div>
             <div class="mb-3">
                 <label for="password" class="form-label">비밀번호</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="새 비밀번호 ">
+                <div id="checkPasswordResult"></div>
             </div>
             <div class="mb-3">
                 <label for="hintQuestion" class="form-label">힌트 질문</label>
-                <input type="text" class="form-control" id="hintQuestion" name="hintQuestion" value="${user.hintQuestion}">
+                <select class="form-control" id="hintQuestionSelect" name="hintQuestionSelect">
+                    <option value="" selected>힌트 질문 선택</option>
+                    <option value="좋아하는 색깔은?">좋아하는 색깔은?</option>
+                    <option value="핸드폰번호 뒷자리는?">핸드폰번호 뒷자리는?</option>
+                    <option value="내 성별은?">내 성별은?</option>
+                </select>
+                <input type="text" class="form-control mt-2 d-none" id="hintQuestion" name="hintQuestion" value="${user.hintQuestion}" readonly>
             </div>
             <div class="mb-3">
                 <label for="hintAnswer" class="form-label">힌트 답변</label>
                 <input type="text" class="form-control" id="hintAnswer" name="hintAnswer" value="${user.hintAnswer}">
-            </div>
-            
+            </div>     
             <button type="submit" class="btn btn-primary">변경 사항 저장</button>
         </form>
         
