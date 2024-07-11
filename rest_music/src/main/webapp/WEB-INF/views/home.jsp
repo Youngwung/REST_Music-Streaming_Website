@@ -28,19 +28,19 @@
 
         <div class="slideshow-container mt-5">
 
-            <div class="mySlides fade">
+            <div class="mySlides">
                 <div class="numbertext">1 / 3</div>
                 <img src="./data/imagee1.jpg" style="width: 100%">
                 <div class="text">Caption Text</div>
             </div>
 
-            <div class="mySlides fade">
+            <div class="mySlides">
                 <div class="numbertext">2 / 3</div>
                 <img src="./data/imagee2.jpg" style="width: 100%">
                 <div class="text">Caption Two</div>
             </div>
 
-            <div class="mySlides fade">
+            <div class="mySlides">
                 <div class="numbertext">3 / 3</div>
                 <img src="./data/imagee3.jpg" style="width: 100%">
                 <div class="text">Caption Three</div>
@@ -145,7 +145,7 @@
         }
         
         @keyframes fade {
-          from {opacity: .4} 
+          from {opacity: 1} 
           to {opacity: 1}
         }
         
@@ -183,7 +183,7 @@
       }
       slides[slideIndex-1].style.display = "block";  
       dots[slideIndex-1].className += " active";
-      setTimeout(showSlides, 2000); // Change image every 2 seconds
+      setTimeout(showSlides, 15000); // Change image every 15 seconds
     }
         
     </script>
