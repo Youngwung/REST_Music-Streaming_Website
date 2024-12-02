@@ -17,6 +17,9 @@
         - 음악 재생 시스템의 전체 개발 담당
     - 앨범 상세 페이지 구현 [기여도 100%]
         - 음악 앨범 상세 정보 페이지 전체 개발 담당
+- **GitHub**:
+    - **Phase 1:** [Spring MVC 기반 프로젝트](https://github.com/Youngwung/REST_Music-Streaming_Website) (현재 Repo)
+    - **Phase 2:** [Spring Boot 기반 프로젝트](https://github.com/Youngwung/REST_Music-Streaming_Website_Boot) (Phase 2 GitHub 링크)
 
 # 🔧 기술 스택
 
