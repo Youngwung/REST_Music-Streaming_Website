@@ -20,6 +20,7 @@
 - **GitHub**:
     - **Phase 1:** [Spring MVC 기반 프로젝트](https://github.com/Youngwung/REST_Music-Streaming_Website) (현재 Repo)
     - **Phase 2:** [Spring Boot 기반 프로젝트](https://github.com/Youngwung/REST_Music-Streaming_Website_Boot) (Phase 2 GitHub 링크)
+    - 통합 포트폴리오: [노션 포트폴리오](https://www.notion.so/12075d808d1f8176be31fe3a8467739e?pvs=21)
 
 # 🔧 기술 스택
 
